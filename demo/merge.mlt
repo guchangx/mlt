@@ -5,15 +5,15 @@
 
   <!-- Source clips -->
   <producer id="clip_a">
-    <property name="resource">/workspaces/mlt/build/test1.MP4</property>
+    <property name="resource">/workspaces/mlt/media/test1.MP4</property>
   </producer>
 
   <producer id="clip_b">
-    <property name="resource">/workspaces/mlt/build/test4.MP4</property>
+    <property name="resource">/workspaces/mlt/media/test4.MP4</property>
   </producer>
   
   <producer id="clip_c">
-    <property name="resource">/workspaces/mlt/build/test5.MP4</property>
+    <property name="resource">/workspaces/mlt/media/test5.MP4</property>
   </producer>
 
   <!-- Track 0 playlist -->
@@ -33,23 +33,24 @@
     <blank length="370"/>
     <entry producer="clip_c" in="0" out="150"/>
     <filter in="370" out="399">
-      <property name="mlt_service">mask_start</property>
-      <property name="filter">shape</property>
-      <property name="filter.resource">round_rectangle.pbm</property>
-      <property name="filter.use_luminance">1</property>
-      <property name="filter.use_mix">0</property>
-    </filter>
-    <filter in="370" out="399">
-      <property name="mlt_service">mask_apply</property>
+      <property name="mlt_service">shape</property>
+      <property name="resource">round_rectangle.pbm</property>
+      <property name="use_luminance">1</property>
+      <property name="use_mix">0</property>
     </filter>
   </playlist>
 
-  <tractor id="main" in="0" out="510">
+  <tractor id="main" in="0" out="520">
     <multitrack>
       <track producer="playlist0"/>
       <track producer="playlist1"/>
       <track producer="playlist2"/>
     </multitrack>
+
+    <filter in="0" out="29">
+      <property name="mlt_service">brightness</property>
+      <property name="level">0=0;-1=1</property>
+    </filter>
 
     <transition id="transition0" in="150" out="179" a_track="0" b_track="1">
       <property name="mlt_service">luma</property>
@@ -92,7 +93,22 @@
       <property name="preserve_alpha">0</property>
     </filter>
 
+    <!-- Last 1s text fade-in (30fps, 490-520) -->
+    <filter in="490" out="520">
+      <property name="mlt_service">dynamictext</property>
+      <property name="argument">走过石桥，留下宁静。</property>
+      <property name="family">simfang</property>
+      <property name="size">68</property>
+      <property name="weight">400</property>
+      <property name="fgcolour">0xffffffff</property>
+      <property name="bgcolour">0x00000000</property>
+      <!-- Animate rect.o (the 5th geometry value) for fade-in so it works even
+           when dynamictext falls back to the text filter backend. -->
+      <property name="geometry">0=0%/0%:100%x100%:0%; -1=0%/0%:100%x100%:100%</property>
+      <property name="halign">centre</property>
+      <property name="valign">middle</property>
+      <!-- Keep opacity animation for qtext backend compatibility. -->
+      <property name="opacity">0=0;-1=1</property>
+    </filter>
   </tractor>
-
-
 </mlt>
