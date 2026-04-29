@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="no"?>
+<mlt LC_NUMERIC="C" version="7.37.0" title="Shotcut version 26.2.26">
+  <profile description="automatic" width="2560" height="1440" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="16" display_aspect_den="9" frame_rate_num="29" frame_rate_den="1" colorspace="709"/>
+  <chain id="chain0" title="Shotcut version 26.2.26" out="00:00:18.310">
+    <property name="length">"00:00:07.730"</property>
+    <property name="eof">pause</property>
+    <property name="resource">/workspaces/mlt/media/DJI_20260211111541_0020_V_1770779704a.MP4</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <link id="link0" in="0" out="00:00:18.310">
+      <property name="mlt_service">timeremap</property>
+      <property name="shotcut:filter">speedForward</property>
+      <property name="speed_map">0$=1;60$=5.2;78=0.3;90$=0.3;110$=5.21;165=1</property>
+      <property name="image_mode">nearest</property>
+      <property name="pitch">0</property>
+      <property name="speed">1</property>
+    </link>
+  </chain>
+</mlt>

@@ -57,21 +57,54 @@
     </filter>
   </playlist>
 
+  <chain id="chain0" title="heroic moment" in="00:00:00.000" out="00:00:06.000">
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="resource">/workspaces/mlt/media/DJI_20260211111541_0020_V_1770779704a.MP4</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    
+    <link id="link0">
+      <property name="mlt_service">timeremap</property>
+      <property name="shotcut:filter">speedForward</property>
+      <property name="speed_map">0$=1;60$=5.4;80=0.3;90$=0.3;110$=5.4;170=1</property>
+      <property name="image_mode">nearest</property>
+      <property name="pitch">0</property>
+      <property name="speed">1</property>
+    </link>
+  </chain>
+
   <playlist id="playlist4">
     <blank length="532"/>
-    <entry producer="clip_4" in="98" out="214"/>
+    <entry producer="chain0"/>
   </playlist>
 
+
+  <chain id="chain1" title="heroic moment" in="00:00:00.000" out="00:00:11.000">
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="resource">/workspaces/mlt/media/DJI_20260211111758_0023_V_1770779704a.MP4</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    
+    <link id="link0">
+      <property name="mlt_service">timeremap</property>
+      <property name="shotcut:filter">speedForward</property>
+      <property name="speed_map">0$=1;60$=5.0;80=0.3;90$=0.3;110$=5.0;170=1</property>
+      <property name="image_mode">nearest</property>
+      <property name="pitch">0</property>
+      <property name="speed">1</property>
+    </link>
+  </chain>
+
   <playlist id="playlist5">
-    <blank length="618"/>
-    <entry producer="clip_5" in="92" out="423"/>  
+    <blank length="678"/>
+    <entry producer="chain1"/>  
   </playlist>
 
   <playlist id="playlist_music">
-    <entry producer="music" in="0" out="949"/>
+    <entry producer="music" in="0" out="1008"/>
   </playlist>
 
-  <tractor id="main" in="0" out="949">
+  <tractor id="main" in="0" out="1008">
     <multitrack>
       <track producer="playlist0"/>
       <track producer="playlist1"/>
@@ -88,11 +121,11 @@
     </filter>
 
     <!-- transition: left-to-right wipe on tracka->trackb overlap in-out -->
-    <transition id="transition_0" in="100" out="130" a_track="0" b_track="1">
+    <transition id="transition_0" in="100" out="130" a_track="1" b_track="0">
       <property name="mlt_service">luma</property>
       <property name="resource">luma_lr.pgm</property>
       <property name="softness">0</property>
-      <property name="reverse">0</property>
+      <property name="reverse">1</property>
     </transition>
 
     <transition id="transition_1" in="225" out="254" a_track="1" b_track="2">
@@ -112,31 +145,31 @@
       <property name="mlt_service">frei0r.darken</property>
     </transition>
 
-    <transition id="transition_4" in="618" out="648" a_track="4" b_track="5">
+    <transition id="transition_4" in="678" out="708" a_track="4" b_track="5">
       <property name="mlt_service">luma</property>
     </transition>
 
-    <filter in="900" out="949">
+    <filter in="900" out="1008">
       <property name="mlt_service">box_blur</property>
-      <property name="hradius">0=0;-1=5</property>
-      <property name="vradius">0=0;-1=5</property>
+      <property name="hradius">0=0;-1=10</property>
+      <property name="vradius">0=0;-1=10</property>
       <property name="preserve_alpha">0</property>
     </filter>
-    <filter in="900" out="949">
+    <filter in="900" out="1008">
       <property name="mlt_service">box_blur</property>
-      <property name="hradius">0=0;-1=5</property>
-      <property name="vradius">0=0;-1=5</property>
+      <property name="hradius">0=0;-1=10</property>
+      <property name="vradius">0=0;-1=10</property>
       <property name="preserve_alpha">0</property>
     </filter>
-    <filter in="900" out="949">
+    <filter in="900" out="1008">
       <property name="mlt_service">box_blur</property>
-      <property name="hradius">0=0;-1=5</property>
-      <property name="vradius">0=0;-1=5</property>
+      <property name="hradius">0=0;-1=10</property>
+      <property name="vradius">0=0;-1=10</property>
       <property name="preserve_alpha">0</property>
     </filter>
 
     <!-- Last 1s text fade-in -->
-    <filter in="900" out="949">
+    <filter in="900" out="1008">
       <property name="mlt_service">dynamictext</property>
       <property name="argument">走过石桥，喧嚣还给城市，宁静留给自己。</property>
       <property name="family">simfang</property>
