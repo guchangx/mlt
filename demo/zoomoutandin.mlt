@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mlt>
+    <producer id="clip1">
+        <property name="resource">/workspaces/mlt/media/DJI_20260211111507_0019_V_1770779704a.MP4</property>
+        <property name="length">00:00:05.000</property>
+        <property name="eof">pause</property>
+    </producer>
+
+    <tractor id="tractor0">
+        <multitrack>
+            <track producer="clip1"/>
+        </multitrack>
+        <filter>
+            <property name="mlt_service">affine</property>
+            <property name="transition.rect">00:00:00.000l=0/0:100%x100%;00:00:03.000o=-100%/-100%:300%x300%;00:00:12.000l=-100%/-100%:300%x300%;00:00:15.000o=0/0:100%x100%</property>
+            <property name="transition.repeat_off">1</property>
+            <property name="rescale">bicubic</property>
+            <property name="transition.valign">middle</property>
+            <property name="transition.halign">center</property>
+        </filter>
+    </tractor>
+</mlt>
