@@ -1,0 +1,46 @@
+schema_version: 7.0
+type: filter
+identifier: radial_blur
+title: Radial Blur
+version: 1
+copyright: Meltytech, LLC
+license: LGPLv2.1
+language: en
+tags:
+  - Video
+description: >
+  A non-linear radial (zoom-style) blur centered on the frame center.
+  Horizontal and vertical radius control the blur intensity toward the center.
+
+parameters:
+
+  - identifier: hradius
+    title: Horizontal radius
+    description: >
+      The horizontal radial blur radius as a percent of image size.
+      100% results in a blur radius of 10% of the image width.
+    type: float
+    unit: percent
+    mutable: yes
+    animation: yes
+    minimum: 0
+    default: 1
+
+  - identifier: vradius
+    title: Vertical radius
+    description: >
+      The vertical radial blur radius as a percent of image size.
+      100% results in a blur radius of 10% of the image width.
+    type: float
+    unit: percent
+    mutable: yes
+    animation: yes
+    minimum: 0
+    default: 1
+
+  - identifier: preserve_alpha
+    title: Preserve Alpha
+    type: boolean
+    description: Exclude the alpha channel from the blur operation
+    mutable: yes
+    default: 0

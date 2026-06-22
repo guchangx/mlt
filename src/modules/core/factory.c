@@ -53,6 +53,10 @@ extern mlt_filter filter_box_blur_init(mlt_profile profile,
                                        mlt_service_type type,
                                        const char *id,
                                        char *arg);
+extern mlt_filter filter_radial_blur_init(mlt_profile profile,
+                                          mlt_service_type type,
+                                          const char *id,
+                                          char *arg);
 extern mlt_filter filter_brightness_init(mlt_profile profile,
                                          mlt_service_type type,
                                          const char *id,
@@ -218,6 +222,7 @@ MLTCORE_EXPORT MLT_REPOSITORY
     MLT_REGISTER(mlt_service_filter_type, "audiowave", filter_audiowave_init);
     MLT_REGISTER(mlt_service_filter_type, "autofade", filter_autofade_init);
     MLT_REGISTER(mlt_service_filter_type, "box_blur", filter_box_blur_init);
+    MLT_REGISTER(mlt_service_filter_type, "radial_blur", filter_radial_blur_init);
     MLT_REGISTER(mlt_service_filter_type, "brightness", filter_brightness_init);
     MLT_REGISTER(mlt_service_filter_type, "channelcopy", filter_channelcopy_init);
     MLT_REGISTER(mlt_service_filter_type, "channelswap", filter_channelcopy_init);
@@ -283,6 +288,10 @@ MLTCORE_EXPORT MLT_REPOSITORY
     MLT_REGISTER_METADATA(mlt_service_filter_type, "audiowave", metadata, "filter_audiowave.yml");
     MLT_REGISTER_METADATA(mlt_service_filter_type, "autofade", metadata, "filter_autofade.yml");
     MLT_REGISTER_METADATA(mlt_service_filter_type, "box_blur", metadata, "filter_box_blur.yml");
+    MLT_REGISTER_METADATA(mlt_service_filter_type,
+                          "radial_blur",
+                          metadata,
+                          "filter_radial_blur.yml");
     MLT_REGISTER_METADATA(mlt_service_filter_type, "brightness", metadata, "filter_brightness.yml");
     MLT_REGISTER_METADATA(mlt_service_filter_type,
                           "channelcopy",

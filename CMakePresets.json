@@ -6,7 +6,6 @@
             "displayName": "vcpkg config",
             "description": "Configure with vcpkg toolchain",
             "binaryDir": "${sourceDir}/build",
-            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "BUILD_TESTING": "ON",
                 "SWIG_PYTHON": "OFF",
@@ -116,22 +115,30 @@
         {
             "name": "clang-format-linux",
             "configurePreset": "cc-debug-linux",
-            "targets": ["clang-format"]
+            "targets": [
+                "clang-format"
+            ]
         },
         {
             "name": "install-linux",
             "configurePreset": "cc-debug-linux",
-            "targets": ["install"]
+            "targets": [
+                "install"
+            ]
         },
         {
             "name": "clang-format-macos",
             "configurePreset": "cc-debug-macos",
-            "targets": ["clang-format"]
+            "targets": [
+                "clang-format"
+            ]
         },
         {
             "name": "install-macos",
             "configurePreset": "cc-debug-macos",
-            "targets": ["install"]
+            "targets": [
+                "install"
+            ]
         }
     ],
     "workflowPresets": [
@@ -139,18 +146,36 @@
             "name": "clang-format_install-linux",
             "displayName": "clang-format, build, install (Linux)",
             "steps": [
-                { "type": "configure", "name": "cc-debug-linux" },
-                { "type": "build", "name": "clang-format-linux" },
-                { "type": "build", "name": "install-linux" }
+                {
+                    "type": "configure",
+                    "name": "cc-debug-linux"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-format-linux"
+                },
+                {
+                    "type": "build",
+                    "name": "install-linux"
+                }
             ]
         },
         {
             "name": "clang-format_install-macos",
             "displayName": "clang-format, build, install (macOS)",
             "steps": [
-                { "type": "configure", "name": "cc-debug-macos" },
-                { "type": "build", "name": "clang-format-macos" },
-                { "type": "build", "name": "install-macos" }
+                {
+                    "type": "configure",
+                    "name": "cc-debug-macos"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-format-macos"
+                },
+                {
+                    "type": "build",
+                    "name": "install-macos"
+                }
             ]
         }
     ]

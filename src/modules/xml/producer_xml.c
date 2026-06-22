@@ -498,13 +498,9 @@ static void on_start_multitrack(deserialise_context context,
                                       (const char *) atts[0],
                                       atts[1] == NULL ? "" : (const char *) atts[1]);
 
-        if (mlt_properties_get(properties, "id") != NULL)
-            mlt_properties_set_data(context->producer_map,
-                                    mlt_properties_get(properties, "id"),
-                                    service,
-                                    0,
-                                    NULL,
-                                    NULL);
+        char *id = mlt_properties_get(properties, "id");
+        if (id != NULL)
+            mlt_properties_set_data(context->producer_map, id, service, 0, NULL, NULL);
 
         context_push_service(context, parent, type);
         context_push_service(context, service, mlt_multitrack_type);
@@ -789,6 +785,8 @@ static void on_end_producer(deserialise_context context, const xmlChar *name)
 
         qualify_property(context, properties, "resource");
         char *resource = mlt_properties_get(properties, "resource");
+
+        printf("[producer_xml] Resource: %s\n", resource);
 
         // Let Kino-SMIL src be a synonym for resource
         if (resource == NULL) {
@@ -1269,6 +1267,7 @@ static void on_end_transition(deserialise_context context, const xmlChar *name)
 
     if (service != NULL && type == mlt_dummy_transition_type) {
         char *id = trim(mlt_properties_get(properties, "mlt_service"));
+        printf("[producer_xml] Loading transition: %s\n", id);
         mlt_service effect = MLT_SERVICE(mlt_factory_transition(context->profile, id, NULL));
         mlt_properties effect_props = MLT_SERVICE_PROPERTIES(effect);
 

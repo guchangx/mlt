@@ -22,6 +22,7 @@
 #include <framework/mlt_slices.h>
 
 #include <math.h>
+#include <stdlib.h>
 
 typedef struct
 {
@@ -674,4 +675,116 @@ void mlt_image_box_blur(mlt_image self, int hradius, int vradius, int preserve_a
     mlt_slices_run_normal(0, v_proc, &desc);
 
     mlt_image_close(&tmpimage);
+}
+
+static inline void blur_rgba8(int width, int height, uint8_t *data, int amount, int steps)
+{
+    float inv_steps = 1.0f / (float) steps;
+    float amount_factor = amount * 0.01f;
+    float inv_h = (height > 1) ? 2.0f / (float) (height - 1) : 0.0f;
+    float inv_w = (width > 1) ? 2.0f / (float) (width - 1) : 0.0f;
+
+#pragma omp parallel for schedule(guided)
+    for (int y = 0; y < height; ++y) {
+        float y_norm = -1.0f + (float) y * inv_h;
+        int dst_row_offset = y * width * 4;
+
+        for (int x = 0; x < width; ++x) {
+            float x_norm = -1.0f + (float) x * inv_w;
+            int dst_idx = dst_row_offset + (x * 4);
+
+            float sum_r = (float) data[dst_idx];
+            float sum_g = (float) data[dst_idx + 1];
+            float sum_b = (float) data[dst_idx + 2];
+            float sum_a = (float) data[dst_idx + 3];
+
+            for (int step = 1; step < steps; ++step) {
+                float scale = 1.0f - amount_factor * ((float) step * inv_steps);
+
+                float mapped_y_float = ((y_norm * scale) + 1.0f) * 0.5f * (float) (height - 1);
+                float mapped_x_float = ((x_norm * scale) + 1.0f) * 0.5f * (float) (width - 1);
+
+                int mapped_y = CLAMP((int) mapped_y_float, 0, height - 1);
+                int mapped_x = CLAMP((int) mapped_x_float, 0, width - 1);
+
+                int src_idx = (mapped_y * width + mapped_x) * 4;
+
+                sum_r += (float) data[src_idx];
+                sum_g += (float) data[src_idx + 1];
+                sum_b += (float) data[src_idx + 2];
+                sum_a += (float) data[src_idx + 3];
+            }
+
+            data[dst_idx] = (uint8_t) CLAMP(sum_r * inv_steps, 0.0f, 255.0f);
+            data[dst_idx + 1] = (uint8_t) CLAMP(sum_g * inv_steps, 0.0f, 255.0f);
+            data[dst_idx + 2] = (uint8_t) CLAMP(sum_b * inv_steps, 0.0f, 255.0f);
+            data[dst_idx + 3] = (uint8_t) CLAMP(sum_a * inv_steps, 0.0f, 255.0f);
+        }
+    }
+}
+
+static inline void blur_rgba64(int width, int height, uint16_t *data, int amount, int steps)
+{
+    float inv_steps = 1.0f / (float) steps;
+    float amount_factor = amount * 0.01f;
+    float inv_h = (height > 1) ? 2.0f / (float) (height - 1) : 0.0f;
+    float inv_w = (width > 1) ? 2.0f / (float) (width - 1) : 0.0f;
+
+#pragma omp parallel for schedule(guided)
+    for (int y = 0; y < height; ++y) {
+        float y_norm = -1.0f + (float) y * inv_h;
+        int dst_row_offset = y * width * 4;
+
+        for (int x = 0; x < width; ++x) {
+            float x_norm = -1.0f + (float) x * inv_w;
+            int dst_idx = dst_row_offset + (x * 4);
+
+            float sum_r = (float) data[dst_idx];
+            float sum_g = (float) data[dst_idx + 1];
+            float sum_b = (float) data[dst_idx + 2];
+            float sum_a = (float) data[dst_idx + 3];
+
+            for (int step = 1; step < steps; ++step) {
+                float scale = 1.0f - amount_factor * ((float) step * inv_steps);
+
+                float mapped_y_float = ((y_norm * scale) + 1.0f) * 0.5f * (float) (height - 1);
+                float mapped_x_float = ((x_norm * scale) + 1.0f) * 0.5f * (float) (width - 1);
+
+                int mapped_y = CLAMP((int) mapped_y_float, 0, height - 1);
+                int mapped_x = CLAMP((int) mapped_x_float, 0, width - 1);
+
+                int src_idx = (mapped_y * width + mapped_x) * 4;
+
+                sum_r += (float) data[src_idx];
+                sum_g += (float) data[src_idx + 1];
+                sum_b += (float) data[src_idx + 2];
+                sum_a += (float) data[src_idx + 3];
+            }
+
+            data[dst_idx] = (uint16_t) CLAMP(sum_r * inv_steps, 0.0f, 65535.0f);
+            data[dst_idx + 1] = (uint16_t) CLAMP(sum_g * inv_steps, 0.0f, 65535.0f);
+            data[dst_idx + 2] = (uint16_t) CLAMP(sum_b * inv_steps, 0.0f, 65535.0f);
+            data[dst_idx + 3] = (uint16_t) CLAMP(sum_a * inv_steps, 0.0f, 65535.0f);
+        }
+    }
+}
+
+void mlt_image_radial_blur(mlt_image self, int amount, int steps, int preserve_alpha)
+{
+    if (self->format != mlt_image_rgba && self->format != mlt_image_rgba64) {
+        mlt_log(NULL,
+                MLT_LOG_ERROR,
+                "Image type %s not supported by radial blur\n",
+                mlt_image_format_name(self->format));
+        return;
+    }
+
+    if (steps <= 1 || amount == 0)
+        return;
+
+    if (self->format == mlt_image_rgba) {
+        blur_rgba8(self->width, self->height, (uint8_t *) self->planes[0], amount, steps);
+    } else if (self->format == mlt_image_rgba64) {
+        blur_rgba64(self->width, self->height, (uint16_t *) self->planes[0], amount, steps);
+    }
 }

@@ -1,0 +1,121 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "melt",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/out/bin/melt",
+            "args": [
+                "-debug",
+                "QT_QPA_PLATFORM=offscreen",
+                "xml:${workspaceFolder}/demo/crop.mlt",
+                "-consumer",
+                "avformat:${workspaceFolder}/build/crop.mp4",
+                "audio_off=0"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [
+                {
+                    "name": "MLT_REPOSITORY",
+                    "value": "${workspaceFolder}/build/out/lib/mlt"
+                },
+                {
+                    "name": "MLT_DATA",
+                    "value": "${workspaceFolder}/src/modules"
+                },
+                {
+                    "name": "MLT_PROFILES_PATH",
+                    "value": "${workspaceFolder}/build/out/share/mlt/profiles"
+                },
+                {
+                    "name": "MLT_PRESETS_PATH",
+                    "value": "${workspaceFolder}/build/out/share/mlt/presets"
+                },
+                {
+                    "name": "MLT_FREI0R_PLUGIN_PATH",
+                    "value": "/workspaces/mlt/frei0r-v3.0.0_linux/filter"
+                },
+                {
+                    "name": "DEBUGINFOD_URLS",
+                    "value": ""
+                }
+            ],
+            "externalConsole": false,
+            "logging": {
+                "engineLogging": true
+            },
+            "MIMode": "gdb",
+            "miDebuggerArgs": "--nx --nh -iex \"set debuginfod enabled off\" -iex \"set debuginfod urls\"",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "melt_cmd",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/out/bin/melt",
+            "args": [
+                "audio_off=1",
+                "-chain",
+                "/workspaces/mlt/media/stonebridge.mp4",
+                "out=570",
+                "-link",
+                "timeremap",
+                "image_mode=blend",
+                "speed_map=\"00:00:00.000=0;00:00:05.000=10\"",
+                "-consumer",
+                "avformat:${workspaceFolder}/build/speed.mp4"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [
+                {
+                    "name": "MLT_REPOSITORY",
+                    "value": "${workspaceFolder}/build/out/lib/mlt"
+                },
+                {
+                    "name": "MLT_DATA",
+                    "value": "${workspaceFolder}/src/modules"
+                },
+                {
+                    "name": "MLT_PROFILES_PATH",
+                    "value": "${workspaceFolder}/build/out/share/mlt/profiles"
+                },
+                {
+                    "name": "MLT_PRESETS_PATH",
+                    "value": "${workspaceFolder}/build/out/share/mlt/presets"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            //"miDebuggerArgs": "--nx --nh -iex \"set debuginfod enabled off\" -iex \"set debuginfod urls\"",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}

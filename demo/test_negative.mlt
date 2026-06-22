@@ -1,0 +1,13 @@
+<mlt>
+  <profile frame_rate_num="30" frame_rate_den="1" />
+  <producer id="source" in="0" out="149">
+    <property name="resource">color:blue</property>
+  </producer>
+  <filter id="filter0">
+    <property name="mlt_service">brightness</property>
+    <property name="level">0=1; -30=1; -1=0</property>
+  </filter>
+  <playlist>
+    <entry producer="source" filter="filter0"/>
+  </playlist>
+</mlt>

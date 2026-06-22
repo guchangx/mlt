@@ -23,5 +23,6 @@
 #include <framework/mlt_image.h>
 
 void mlt_image_box_blur(mlt_image self, int hradius, int vradius, int preserve_alpha);
+void mlt_image_radial_blur(mlt_image self, int amount, int steps, int preserve_alpha);
 
 #endif // IMAGE_PROC_H

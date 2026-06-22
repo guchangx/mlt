@@ -397,10 +397,11 @@ static int filter_get_image(mlt_frame frame,
     mlt_service_lock(MLT_FILTER_SERVICE(filter));
     int shape_width = mlt_properties_get_int(filter_properties, "shape_width");
     int blur = mlt_properties_get_int(filter_properties, "blur");
+    int crop = mlt_properties_get_int(filter_properties, "crop");
     cv::Mat cvFrame;
 
     private_data *data = (private_data *) filter->child;
-    if (shape_width == 0 && blur == 0 && !data->playback) {
+    if (shape_width == 0 && blur == 0 && crop == 0 && !data->playback) {
         error = mlt_frame_get_image(frame, image, format, width, height, 1);
         mlt_service_unlock(MLT_FILTER_SERVICE(filter));
         return error;
@@ -559,6 +560,38 @@ static int filter_get_image(mlt_frame frame,
                           1);
             break;
         }
+    }
+
+    if ((data->boundingBox.width > 0 && data->boundingBox.height > 0) && crop) {
+        mlt_rect rect = mlt_properties_get_rect(filter_properties, "pin");
+
+        int target_w = rect.w;
+        int target_h = rect.h;
+        
+        target_w = MIN(target_w, *width);
+        target_h = MIN(target_h, *height);
+
+        int cx = data->boundingBox.x + data->boundingBox.width / 2;
+        int cy = data->boundingBox.y + data->boundingBox.height / 2;
+
+        int vp_x = cx - target_w / 2;
+        int vp_y = cy - target_h / 2;
+
+        if (vp_x < 0) { vp_x = 0; }
+        if (vp_y < 0) { vp_y = 0; }
+        if (vp_x + target_w > *width) { vp_x = *width - target_w; }
+        if (vp_y + target_h > *height) { vp_y = *height - target_h; }
+
+        cv::Rect viewport(vp_x, vp_y, target_w, target_h);
+
+        cv::Mat roi = cvFrame(viewport).clone();
+        
+        cvFrame.setTo(cv::Scalar(0, 0, 0));
+        
+        int center_x = (*width - target_w) / 2;
+        int center_y = (*height - target_h) / 2;
+        
+        roi.copyTo(cvFrame(cv::Rect(center_x, center_y, target_w, target_h)));
     }
 
     mlt_service_unlock(MLT_FILTER_SERVICE(filter));

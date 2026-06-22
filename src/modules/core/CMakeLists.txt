@@ -9,6 +9,7 @@ add_library(mltcore MODULE
   filter_audiowave.c
   filter_autofade.c
   filter_box_blur.c
+  filter_radial_blur.c
   filter_brightness.c
   filter_channelcopy.c
   filter_choppy.c

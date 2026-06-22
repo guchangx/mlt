@@ -1,0 +1,24 @@
+<mlt>
+  <profile description="PAL 4:3 DV or DVD" width="1920" height="1080" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="1080" display_aspect_den="1920" frame_rate_num="30" frame_rate_den="1" colorspace="709"/>
+
+  <producer id="tracker_source">
+    <property name="resource">/workspaces/mlt/media/move.MP4</property>
+  </producer>
+
+  <playlist>
+    <entry producer="tracker_source"/>
+    <filter id="filter0">
+      <property name="mlt_service">affine</property>
+      <property name="transition.rect">00:00:00.000l=0/0:100%x100%;00:00:07.000o=-100%/-100%:300%x300%;00:00:12.000l=-100%/-100%:300%x300%;00:00:15.000o=0/0:100%x100%</property>
+      <property name="transition.repeat_off">1</property>
+      <property name="rescale">bicubic</property>
+      <property name="transition.valign">middle</property>
+      <property name="transition.halign">center</property>
+    </filter>
+    <filter id="filter1">
+      <property name="mlt_service">radial_blur</property>
+      <property name="amount">00:00:00.000=0; 00:00:05.000=0; 00:00:10.000=16; 00:00:15.000=0</property>
+      <property name="steps">26</property>
+    </filter>
+  </playlist>
+</mlt>

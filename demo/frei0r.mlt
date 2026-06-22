@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mlt>
+    <producer id="clip1">
+        <property name="resource">/workspaces/mlt/media/scenery.mp4</property>
+        <property name="length">00:00:05.000</property>
+    </producer>
+
+    <producer id="clip2">
+        <property name="resource">/workspaces/mlt/media/test4.MP4</property>
+        <property name="length">00:00:10.000</property>
+    </producer>
+
+    <tractor id="tractor0">
+        <track producer="clip1" in="00:00:02.000" out="00:00:04.000"/>
+        <track producer="clip2" in="00:00:00.000" out="00:00:02.000"/>
+
+        <transition id="transition0" out="00:00:02.000">
+            <property name="a_track">0</property>
+            <property name="b_track">1</property>
+            <property name="mlt_service">frei0r.cairoblend</property>
+            <property name="0">0=0;-25=1;-1=0</property>
+            <property name="1">add</property>
+        </transition>
+    </tractor>
+
+    <playlist id="videotrack0">
+        <entry producer="clip1" in="00:00:00.000" out="00:00:02.000" />
+        <entry producer="tractor0" in="00:00:00.000" out="00:00:02.000" />
+        <entry producer="clip2" in="00:00:02.000" out="00:00:04.000" />
+    </playlist>
+</mlt>

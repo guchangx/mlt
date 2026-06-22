@@ -1,0 +1,21 @@
+<mlt>
+  <profile description="PAL 4:3 DV or DVD" width="1080" height="1920" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="1080" display_aspect_den="1920" frame_rate_num="30" frame_rate_den="1" colorspace="709"/>
+
+  <producer id="tracker_source">
+    <property name="resource">track.mlt</property>
+  </producer>
+
+  <playlist>
+    <entry producer="tracker_source"/>
+    <filter id="filter0">
+      <property name="mlt_service">crop</property>
+      <property name="use_profile">1</property>
+      <property name="center">0</property>
+      <property name="center_bias">0</property>
+      <property name="top">100</property>
+      <property name="bottom">113</property>
+      <property name="left">388</property>
+      <property name="right">388</property>
+    </filter>
+  </playlist>
+</mlt>

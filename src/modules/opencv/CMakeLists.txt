@@ -7,6 +7,7 @@ add_custom_target(Other_opencv_Files SOURCES
 include(GenerateExportHeader)
 generate_export_header(mltopencv)
 target_compile_options(mltopencv PRIVATE ${MLT_COMPILE_OPTIONS})
+message(status "CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(mltopencv PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(mltopencv PRIVATE mlt ${OpenCV_LIBS})
 if(MSVC)
