@@ -586,8 +586,6 @@ static int filter_get_image(mlt_frame frame,
 
         cv::Mat roi = cvFrame(viewport).clone();
         
-        cvFrame.setTo(cv::Scalar(0, 0, 0));
-        
         int center_x = (*width - target_w) / 2;
         int center_y = (*height - target_h) / 2;
         

@@ -113,7 +113,7 @@ MLT_EXPORT void mlt_log(void *service, int level, const char *fmt, ...);
 #define mlt_log_verbose(service, format, args...) \
     mlt_log((service), MLT_LOG_VERBOSE, (format), ##args)
 #define mlt_log_timings(service, format, args...) \
-    mlt_log((service), MLT_LOG_ERROR, (format), ##args)
+    mlt_log((service), MLT_LOG_TIMINGS, (format), ##args)
 #define mlt_log_debug(service, format, args...) mlt_log((service), MLT_LOG_DEBUG, (format), ##args)
 
 #endif

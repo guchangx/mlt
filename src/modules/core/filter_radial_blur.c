@@ -56,12 +56,7 @@ static int filter_get_image(mlt_frame frame,
         if (error == 0) {
             struct mlt_image_s img;
             mlt_image_set_values(&img, *image, *format, *width, *height);
-            int64_t start = mlt_log_timings_now();
-            mlt_image_radial_blur_2(&img, amount, steps, preserve_alpha);
-            int64_t end = mlt_log_timings_now();
-            mlt_log_error(MLT_FILTER_SERVICE(filter),
-                          "Radial blur took %d milliseconds\n",
-                          (int) (end - start) / 1000);
+            mlt_image_radial_blur(&img, amount, steps, preserve_alpha);
         }
     }
     return error;

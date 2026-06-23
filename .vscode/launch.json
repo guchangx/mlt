@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/out/bin/melt",
             "args": [
-                "-debug",
+                "-progress",
                 "QT_QPA_PLATFORM=offscreen",
                 "xml:${workspaceFolder}/demo/crop.mlt",
                 "-consumer",
