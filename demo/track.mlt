@@ -268,11 +268,11 @@
     <playlist id="playlist0">
       <entry producer="scenery_head" />
       <entry producer="hx_1" />
-      <entry producer="hx_2" />
+      <entry producer="hx_2" in="00:00:00.000" out="00:00:07.360"/>
       <entry producer="tractor3" in="00:00:00.000" out="00:00:00.500" />
-      <entry producer="hx_3" />
+      <entry producer="hx_3" in="00:00:00.500" out="00:00:08.350"/>
       <entry producer="tractor4" in="00:00:00.000" out="00:00:00.500" />
-      <entry producer="scenery_tail" />
+      <entry producer="scenery_tail" in="00:00:00.500" out="00:00:06.230" />
     </playlist>
 
     <playlist id="playlist1">
