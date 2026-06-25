@@ -60,6 +60,17 @@ target_compile_options(mltcore PRIVATE ${MLT_COMPILE_OPTIONS})
 
 target_link_libraries(mltcore PRIVATE mlt Threads::Threads)
 
+find_package(OpenMP COMPONENTS C)
+if(OpenMP_C_FOUND)
+  message(STATUS "OpenMP found, enabling parallel processing in core module for C code")
+  # Add flags explicitly to guarantee -fopenmp appears in compile and link commands.
+  target_compile_options(mltcore PRIVATE ${OpenMP_C_FLAGS})
+  target_link_options(mltcore PRIVATE ${OpenMP_C_FLAGS})
+  target_link_libraries(mltcore PRIVATE OpenMP::OpenMP_C)
+else()
+  message(WARNING "OpenMP C not found; core module will be built without OpenMP.")
+endif()
+
 target_include_directories(mltcore PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 if(MSVC)
   target_link_libraries(mltcore PRIVATE PThreads4W::PThreads4W)
