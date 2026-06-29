@@ -19,8 +19,8 @@
       </filter>
       <filter>
         <property name="mlt_service">radial_blur</property>
-        <property name="amount">00:00:02.600=0;00:00:03.000=14</property>
-        <property name="steps">22</property>
+        <property name="amount">00:00:02.600=0;00:00:03.000=12</property>
+        <property name="steps">26</property>
       </filter>
       <link>
         <property name="mlt_service">timeremap</property>
@@ -60,13 +60,13 @@
       </filter>
       <filter>
         <property name="mlt_service">radial_blur</property>
-        <property name="amount">00:00:04.150=16;00:00:04.650=0</property>
-        <property name="steps">24</property>
+        <property name="amount">00:00:04.150=12;00:00:04.650=0</property>
+        <property name="steps">26</property>
       </filter>
       <filter>
         <property name="mlt_service">radial_blur</property>
         <property name="amount">00:00:12.960=0;00:00:13.260=-12</property>
-        <property name="steps">22</property>
+        <property name="steps">26</property>
       </filter>
       <filter>
         <property name="version">0.3</property>
