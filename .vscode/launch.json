@@ -12,7 +12,7 @@
             "args": [
                 "-progress",
                 "QT_QPA_PLATFORM=offscreen",
-                "xml:${workspaceFolder}/demo/crop.mlt",
+                "xml:${workspaceFolder}/demo/02crop.mlt",
                 "-consumer",
                 "avformat:${workspaceFolder}/build/crop.mp4",
                 "audio_off=0"
